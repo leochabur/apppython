@@ -7,7 +7,7 @@ from jproperties import Properties
 from tkinter import *
 import tkinter as tk
 import datetime
-
+import subprocess 
 
 
 def prueba ():
@@ -19,7 +19,7 @@ window.title("Running Python Script")
 window.geometry('550x200')
 
 
-def run():
+def run(i):
     hora_actual = datetime.datetime.now()
     var1.set(hora_actual.strftime("%Y-%m-%d %H:%M:%S"))
     configs = Properties() 
@@ -32,16 +32,21 @@ def run():
     str = 'DRIVER={SQL Server};SERVER='+data['host']+';Integrated_Security=false;DATABASE='+data['db']+';PORT='+data['port']+';UID='+data['user']+';PWD='+data['pwd']
     cnxn = pyodbc.connect(str)
     cursor = cnxn.cursor()
-    cursor.execute('SELECT * FROM ChequesP chP INNER JOIN CheqPConci chPC ON chPC.cpcchp_ID = chP.chp_ID LEFT JOIN Proveed P ON P.pro_Cod = chP.chppro_Cod')
-    i = 0
-    for row in cursor:
-        listbox.insert(i, row[2])
-        i = i + 1
+    cursor.execute('SELECT 1+1, 1+2, 1+3')
+
+
+    
+
+    listbox.insert(i, hora_actual.strftime("%Y-%m-%d %H:%M:%S"))
+    #for row in cursor:
+        
+     #   i = i + 1
         #print('row = %r' % (row,))
 
-def countdown():  
-        run()
-        window.after(6000, countdown)  
+def countdown(i): 
+        i = i + 1 
+        run(i)
+        window.after(30000, countdown, i)  
 
 var1 = StringVar()
 
@@ -52,7 +57,7 @@ label.grid(column=0, row=0)
 listbox = tk.Listbox()
 listbox.grid(column=0, row=1)
 var1.set("")
-countdown()
+countdown(1)
 
 window.mainloop()
 
